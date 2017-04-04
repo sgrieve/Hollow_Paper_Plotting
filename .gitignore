@@ -1,4 +1,4 @@
-.pyc
+*.pyc
 Data/*
 Final_Plots/*
 LSDPlottingTools/*
