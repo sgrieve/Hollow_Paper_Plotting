@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import DataLoader
 from matplotlib import rcParams
+import get_downslope_orientation as gdo
 
 
 rcParams['font.family'] = 'sans-serif'
@@ -14,23 +15,33 @@ A = []
 # use a fixed no of harmonics
 MaxHarmonic = 17
 
+headers, Data = DataLoader.LoadData('Data/Mid_Data_Final_veg_curv.csv')
 sf = EFD.LoadGeometries('Data/Mid_Hollows.shp')
-
 
 # below here is the real processing of the shapes, above is data i/o
 
 # loop over individual polygons in a multipart shapefile
 for shaperec in sf:
 
-    # Convert the shape instance into a format that EFD can use
-    x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+    # get the index of the data in order to find the X,Y outlet coords
+    q = [i for i, a in enumerate(list(Data['ID'])) if a == shaperec.record[0]]
 
-    # Compute coefficients using the required number of harmonics and
-    # normalize them
-    coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
-    coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+    if q:
+        point = (Data['X'][q], Data['Y'][q])
+        _, _, Centroid = EFD.ProcessGeometry(shaperec)
+        rotation = gdo.AngleBetween(Centroid, point)
 
-    A.append(coeffs)
+        # Convert the shape instance into a format that EFD can use
+        x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+
+        # Perform a spatial rotation to have the hollow point south
+        x, y = EFD.RotateContour(x, y, rotation, NormCentroid)
+
+        # Compute coefficients using the required number of harmonics and
+        # normalize them
+        coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
+        coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+        A.append(coeffs)
 
 avg = EFD.AverageCoefficients(A)
 sd = EFD.AverageSD(A, avg)

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import DataLoader
 from matplotlib import rcParams
-
+import get_downslope_orientation as gdo
 
 rcParams['font.family'] = 'sans-serif'
 rcParams['font.sans-serif'] = ['arial']
@@ -24,6 +24,7 @@ sf = EFD.LoadGeometries('Data/Mid_Hollows.shp')
 
 filename = 'Data/Mid_Data_Final_veg_curv.csv'
 a, b, c, d = DataLoader.VegDataFilter(filename)
+headers, Data = DataLoader.LoadData(filename)
 
 # below here is the real processing of the shapes, above is data i/o
 
@@ -31,51 +32,95 @@ a, b, c, d = DataLoader.VegDataFilter(filename)
 for shaperec in sf:
     if shaperec.record in a:
 
-        # Convert the shape instance into a format that EFD can use
-        x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+        # get the index of the data in order to find the X,Y outlet coords
+        q = [i for i, z in enumerate(list(Data['ID'])) if z == shaperec.record[0]]
 
-        # Compute coefficients using the required number of harmonics and
-        # normalize them
-        coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
-        coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+        if q:
+            point = (Data['X'][q], Data['Y'][q])
+            _, _, Centroid = EFD.ProcessGeometry(shaperec)
+            rotation = gdo.AngleBetween(Centroid, point)
 
-        A.append(coeffs)
+            # Convert the shape instance into a format that EFD can use
+            x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+
+            # Perform a spatial rotation to have the hollow point south
+            x, y = EFD.RotateContour(x, y, rotation, NormCentroid)
+
+            # Compute coefficients using the required number of harmonics and
+            # normalize them
+            coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
+            coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+
+            A.append(coeffs)
 
     elif shaperec.record in b:
 
-        # Convert the shape instance into a format that EFD can use
-        x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+        # get the index of the data in order to find the X,Y outlet coords
+        q = [i for i, z in enumerate(list(Data['ID'])) if z == shaperec.record[0]]
 
-        # Compute coefficients using the required number of harmonics and
-        # normalize them
-        coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
-        coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+        if q:
+            point = (Data['X'][q], Data['Y'][q])
+            _, _, Centroid = EFD.ProcessGeometry(shaperec)
+            rotation = gdo.AngleBetween(Centroid, point)
 
-        B.append(coeffs)
+            # Convert the shape instance into a format that EFD can use
+            x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+
+            # Perform a spatial rotation to have the hollow point south
+            x, y = EFD.RotateContour(x, y, rotation, NormCentroid)
+
+            # Compute coefficients using the required number of harmonics and
+            # normalize them
+            coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
+            coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+
+            B.append(coeffs)
 
     elif shaperec.record in c:
 
-        # Convert the shape instance into a format that EFD can use
-        x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+        # get the index of the data in order to find the X,Y outlet coords
+        q = [i for i, z in enumerate(list(Data['ID'])) if z == shaperec.record[0]]
 
-        # Compute coefficients using the required number of harmonics and
-        # normalize them
-        coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
-        coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+        if q:
+            point = (Data['X'][q], Data['Y'][q])
+            _, _, Centroid = EFD.ProcessGeometry(shaperec)
+            rotation = gdo.AngleBetween(Centroid, point)
 
-        C.append(coeffs)
+            # Convert the shape instance into a format that EFD can use
+            x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+
+            # Perform a spatial rotation to have the hollow point south
+            x, y = EFD.RotateContour(x, y, rotation, NormCentroid)
+
+            # Compute coefficients using the required number of harmonics and
+            # normalize them
+            coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
+            coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+
+            C.append(coeffs)
 
     elif shaperec.record in d:
 
-        # Convert the shape instance into a format that EFD can use
-        x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+        # get the index of the data in order to find the X,Y outlet coords
+        q = [i for i, z in enumerate(list(Data['ID'])) if z == shaperec.record[0]]
 
-        # Compute coefficients using the required number of harmonics and
-        # normalize them
-        coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
-        coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+        if q:
+            point = (Data['X'][q], Data['Y'][q])
+            _, _, Centroid = EFD.ProcessGeometry(shaperec)
+            rotation = gdo.AngleBetween(Centroid, point)
 
-        D.append(coeffs)
+            # Convert the shape instance into a format that EFD can use
+            x, y, NormCentroid = EFD.ProcessGeometryNorm(shaperec)
+
+            # Perform a spatial rotation to have the hollow point south
+            x, y = EFD.RotateContour(x, y, rotation, NormCentroid)
+
+            # Compute coefficients using the required number of harmonics and
+            # normalize them
+            coeffs = EFD.CalculateEFD(x, y, MaxHarmonic)
+            coeffs, _ = EFD.normalize_efd(coeffs, size_invariant=True)
+
+            D.append(coeffs)
 
 titles = ['Cove Hardwood', 'Mixed Deciduous', 'Xeric Oak-Pine',
           'Northern Hardwood']
