@@ -18,15 +18,15 @@ _, HiData = LoadData('Data/Hi_Data_Final_veg_curv.csv')
 sub_label = [''] + list(string.ascii_lowercase)[:6]
 color = ['r', 'k', 'b']
 Labels = ['Lower bound', 'Middle bound', 'Upper bound']
-Units = ['($m^{2}$)', '($m/m$)', '($m^{-1}$)',
-         '($m^{-1}$)', '($m$)', '($m$)']
+Units = ['($m^{2}$)', '($m/m$)', '($\%$)',
+         '($m$)', '($m$)', '($m$)']
 
 xmins = [0., 0., -0.08, -0.02, 0., 0.]
 
 
 count = 1
 
-for h, u in zip(Headers[1:3] + Headers[6:9] + ('Relief', '')[:-1], Units):
+for h, u in zip(Headers[1:3] + ('Curv_pc', 'width', 'Length', 'Relief', '')[:-1], Units):
 
     ax = plt.subplot(3, 2, count)
     plt.tick_params(axis='both', which='both', top='off', right='off')
@@ -41,7 +41,10 @@ for h, u in zip(Headers[1:3] + Headers[6:9] + ('Relief', '')[:-1], Units):
         plt.ylabel('Probability Density\n\n', fontsize=14)
 
     if (count == 4):
-        plt.xlabel(('{0} {1}').format('Planform curvature', u), fontsize=14)
+        plt.xlabel(('{0} {1}').format('Width', u), fontsize=14)
+    elif (count == 3):
+        plt.xlabel(('{0} {1}').format('Percentage concave area', u),
+                   fontsize=14)
     else:
         plt.xlabel(('{0} {1}').format(h.replace('_', ' '), u), fontsize=14)
 
