@@ -26,7 +26,7 @@ xmins = [0., 0., -0.08, -0.02, 0., 0.]
 
 count = 1
 
-for h, u in zip(Headers[1:3] + ('Curv_pc', 'width', 'Length', 'Relief', '')[:-1], Units):
+for h, u in zip(Headers[1:3] + ('Curv_pc', 'width', 'Length', 'Relief'), Units):
 
     ax = plt.subplot(3, 2, count)
     plt.tick_params(axis='both', which='both', top='off', right='off')
