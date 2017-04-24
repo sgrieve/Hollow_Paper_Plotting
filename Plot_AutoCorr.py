@@ -12,8 +12,8 @@ rcParams['ytick.direction'] = 'out'
 colors = ['k', 'r']
 styles = ['-', '--']
 label = [['Area', 'Width'], ['Escarpment area', 'Non-escarpment area']]
-files = [['area_ac.csv', 'width_ac.csv'],
-         ['esc_area_ac_small.csv', 'non_esc_area_ac.csv']]
+files = [['Data/area_ac.csv', 'Data/width_ac.csv'],
+         ['Data/esc_area_ac.csv', 'Data/non_esc_area_ac.csv']]
 sub_label = ['a', 'b']
 
 for a in xrange(2):
