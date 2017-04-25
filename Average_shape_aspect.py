@@ -118,4 +118,4 @@ fig = plt.gcf()
 # full page = 190*230
 fig.set_size_inches(mm_to_inch(95), mm_to_inch(230))
 
-plt.savefig('Final_Plots/Apect_Hollow_Shape.pdf')
+plt.savefig('Final_Plots/Aspect_Hollow_Shape.pdf')
