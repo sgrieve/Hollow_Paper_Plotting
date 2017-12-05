@@ -72,7 +72,8 @@ for shaperec in sf.shapeRecords():
 
         new_x = [(value - rxmin) / normshape for value in rxs]
         new_y = [(value - rymin) / normshape for value in rys]
-        plt.fill(new_x, new_y, color='k', linewidth=0.)
+        plt.fill(new_x, new_y, color='k', linewidth=3., fill=False)
+        plt.fill(new_x, new_y, color='k', linewidth=0., alpha=0.15)
         pt = plt.scatter((centroid[0] - rxmin) / normshape,
                          (centroid[1] - rymin) / normshape, color='r',
                          marker='x', zorder=2, s=100, linewidth=3)
@@ -165,7 +166,8 @@ for shaperec in sf.shapeRecords():
         plt.tick_params(axis='both', which='both', bottom='off', top='off',
                         left='off', right='off')
 
-        plt.fill(new_x, new_y, color='k', linewidth=0.)
+        plt.fill(new_x, new_y, color='k', linewidth=3., fill=False)
+        plt.fill(new_x, new_y, color='k', linewidth=0., alpha=0.15)
 
         plt.arrow(-0.125, 0.85, 0.0, 0.1, fc="k", ec="k", label='Test',
                   head_width=0.025, head_length=0.025, linewidth=2.,
