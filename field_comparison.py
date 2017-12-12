@@ -55,7 +55,7 @@ bincenters = 0.5 * (binEdges[1:] + binEdges[:-1])
 plt.plot(bincenters, y, 'k')
 
 med = np.median(vals)
-plt.vlines(med, 0., 1., 'r', '--', label='Median = {0}'.format(round(med, 2)))
+plt.vlines(med, 0., 1., 'r', '--', label='Median = {0} m'.format(round(med, 2)))
 plt.ylim(0, np.max(y))
 
 plt.ylabel('Probability Density\n', fontsize=14)
