@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 from DataLoader import LoadData
+import string
 
 rcParams['font.family'] = 'sans-serif'
 rcParams['font.sans-serif'] = ['arial']
@@ -17,6 +18,8 @@ params = ['Area', 'Slope', 'Curv_pc', 'width', 'Length', 'Relief']
 ylabels = ['Area ($m^2$)', 'Slope ($m/m$)', 'Percentage concave ($\%$)',
            'Width ($m$)', 'Length ($m$)', 'Relief ($m$)']
 
+sub_label = list(string.ascii_lowercase)[:6]
+
 for n in range(6):
 
     ax = plt.subplot(3, 2, n + 1)
@@ -31,6 +34,10 @@ for n in range(6):
     ax.set_xticklabels(labels)
 
     plt.ylabel(ylabels[n])
+
+    plt.annotate(sub_label[n], xy=(0.95, 0.97),
+                 xycoords='axes fraction', fontsize=16,
+                 horizontalalignment='left', verticalalignment='top')
 
 
 def mm_to_inch(mm):
