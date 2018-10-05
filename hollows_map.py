@@ -114,7 +114,7 @@ def Draw_Outline(Country_Outline, State_Borders, Points, hillshade_file):
 
     # Put a legend to the right of the current axis
     legend = ax2.legend([poly, poly2],
-                        ['Escarpment\nhollows', 'Non-Escarpment\nhollows'],
+                        ['Escarpment\nbasins', 'Non-Escarpment\nbasins'],
                         loc='center left', bbox_to_anchor=(.99, 0.5),
                         fontsize=10, handlelength=0.7)
 
